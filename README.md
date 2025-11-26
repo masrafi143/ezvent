@@ -42,13 +42,10 @@ EzVent is a full-stack event management platform built with **Next.js**, **NextA
 
 ### 1. Clone the project
 
-git clone https://github.com/your-username/ezvent.git
-cd ezvent
+git clone https://github.com/masrafi143/ezvent.git
 
 ### 2. Install dependencies
 
-yarn install
-# or
 npm install
 
 ### 3. Create `.env.local`
