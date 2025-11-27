@@ -61,10 +61,11 @@ export default function RegisterPage() {
       });
 
       alert("Registration successful!");
-      router.push("/login");
+      router.push("/");
     } catch (err) {
       console.error(err);
       setError("Something went wrong!");
+      router.push("/");
     }
 
     setLoading(false);

@@ -56,6 +56,7 @@ export default function LoginPage() {
       router.push("/");
     } else {
       alert("Google login failed!");
+      router.push("/");
     }
 
     setLoading(false);

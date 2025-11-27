@@ -4,8 +4,15 @@
   --background: #ffffff;
   --foreground: #171717;
   --primary: #fc4b06;
-  --secondary:  #012056;
-  /* --secondary:  #188038; */
+  --secondary: #012056;
+}
+
+/* Force light theme — disable dark-mode auto */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff !important;
+    --foreground: #171717 !important;
+  }
 }
 
 @theme inline {
@@ -15,13 +22,6 @@
   --color-secondary: var(--secondary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

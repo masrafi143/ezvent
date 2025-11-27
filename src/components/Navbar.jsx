@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { data: session } = useSession();
-  const pathname = usePathname(); // ✅ Active route detection
+  const pathname = usePathname();
 
   const links = [
     { href: "/", label: "Home" },
