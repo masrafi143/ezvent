@@ -85,7 +85,7 @@ export default function EventsPage() {
 
               {/* Details Button */}
               <div className="card-actions justify-end mt-3">
-                <Link href={`/events/${event._id}`} className="btn btn-primary">
+                <Link href={`/events/${event._id}`} className="btn bg-primary text-white btn-sm">
                   Details
                 </Link>
               </div>

@@ -118,7 +118,7 @@ function CTA({ onPrimary }) {
       <Link
         href="/add-events"
         onClick={onPrimary}
-        className="btn btn-primary px-6 py-3 text-white rounded-md shadow hover:scale-[1.02] transform transition focus:outline-none focus:ring-4 focus:ring-primary/40"
+        className="btn bg-primary px-6 py-3 text-white rounded-md shadow hover:scale-[1.02] transform transition focus:outline-none focus:ring-4 focus:ring-primary/40"
         aria-label="Create Event"
       >
         Create Event
@@ -311,7 +311,7 @@ function EventsGrid() {
                   Details
                 </Link> */}
                 <p className="btn bg-secondary text-white btn-sm">Details</p>
-                <button className="btn btn-primary btn-sm">Buy Ticket</button>
+                <button className="btn bg-primary text-white btn-sm">Buy Ticket</button>
               </div>
             </div>
           </article>
@@ -357,6 +357,135 @@ function Testimonials() {
   );
 }
 
+function HowItWorks() {
+  const steps = [
+    {
+      id: 1,
+      title: "Create Event",
+      desc: "Add event details, date, pricing and images in minutes.",
+      icon: "🛠️",
+    },
+    {
+      id: 2,
+      title: "Promote",
+      desc: "Share your event page with your audience instantly.",
+      icon: "📣",
+    },
+    {
+      id: 3,
+      title: "Sell & Manage",
+      desc: "Sell tickets, track attendees and view analytics.",
+      icon: "💳",
+    },
+  ];
+
+  return (
+    <section className="py-12 px-6 md:px-16 bg-base-200">
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        How Ezvent Works
+      </h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {steps.map((s) => (
+          <div
+            key={s.id}
+            className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition"
+          >
+            <div className="text-4xl mb-3">{s.icon}</div>
+            <h3 className="font-semibold text-lg">{s.title}</h3>
+            <p className="text-sm text-gray-600 mt-2">{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function WhyEzvent() {
+  const benefits = [
+    "No setup fees — start free",
+    "Mobile-friendly event pages",
+    "Secure payments & ticketing",
+    "Real-time attendee insights",
+    "Fast support for organizers",
+  ];
+
+  return (
+    <section className="py-12 px-6 md:px-16">
+      <div className="md:flex md:items-center md:gap-12">
+        <div className="md:w-1/2">
+          <h2 className="text-2xl font-bold mb-4">
+            Why Choose Ezvent?
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Everything you need to host professional events without
+            complexity.
+          </p>
+
+          <ul className="space-y-3">
+            {benefits.map((b, i) => (
+              <li key={i} className="flex items-center gap-2">
+                <span className="text-primary font-bold">✔</span>
+                <span className="text-gray-700">{b}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="md:w-1/2 mt-6 md:mt-0">
+          <img
+            src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=60"
+            alt="Why Ezvent"
+            className="rounded-xl shadow-md"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const faqs = [
+    {
+      q: "Is Ezvent free to use?",
+      a: "Yes, you can create and publish events for free.",
+    },
+    {
+      q: "Can I sell paid tickets?",
+      a: "Absolutely. Ezvent supports paid ticketing and payments.",
+    },
+    {
+      q: "Do attendees get reminders?",
+      a: "Yes, automatic reminders and updates are included.",
+    },
+    {
+      q: "Is Ezvent mobile friendly?",
+      a: "All event pages are fully responsive.",
+    },
+  ];
+
+  return (
+    <section className="py-12 px-6 md:px-16 bg-base-200">
+      <h2 className="text-2xl font-bold text-center mb-8">
+        Frequently Asked Questions
+      </h2>
+
+      <div className="max-w-3xl mx-auto space-y-4">
+        {faqs.map((f, i) => (
+          <details
+            key={i}
+            className="bg-white rounded-lg p-4 shadow-sm cursor-pointer"
+          >
+            <summary className="font-semibold">{f.q}</summary>
+            <p className="mt-2 text-sm text-gray-600">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+
 function PromoBanner() {
   return (
     <section className="py-12 px-6 md:px-16">
@@ -394,11 +523,14 @@ export default function HeroSections() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="bg-base-200 ">
       <Hero />
       <Features />
+      <HowItWorks />
       <EventsGrid />
+      <WhyEzvent />
       <Testimonials />
+      <FAQ />
       <PromoBanner />
     </div>
   );
