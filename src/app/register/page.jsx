@@ -34,13 +34,14 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      // 1. Save user in your backend (MongoDB)
+      // ✅ Save user WITH password
       const res = await fetch("https://ezvent-server.onrender.com/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: user.name,
           email: user.email,
+          password: user.password, // ✅ plain
           image: user.photo,
         }),
       });
@@ -53,19 +54,10 @@ export default function RegisterPage() {
         return;
       }
 
-      // 2. Optionally create credentials login via NextAuth (if using credentials provider)
-      await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: user.email, password: user.password }),
-      });
-
-      alert("Registration successful!");
-      router.push("/");
+      alert("Registration successful! Please login.");
+      router.push("/login");
     } catch (err) {
-      console.error(err);
       setError("Something went wrong!");
-      router.push("/");
     }
 
     setLoading(false);

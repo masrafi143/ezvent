@@ -17,14 +17,13 @@ export default function LoginPage() {
     const result = await signIn("credentials", {
       email,
       password,
-      redirect: false,
+      redirect: false, // ✅ important
     });
 
-    if (result?.ok) {
-      alert("Login successful!");
+    if (!result?.error) {
       router.push("/");
     } else {
-      alert("Invalid credentials!");
+      alert("Invalid email or password");
     }
 
     setLoading(false);
@@ -34,14 +33,14 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     setLoading(true);
 
-    const result = await signIn("google", { redirect: false });
+    const result = await signIn("google", { redirect: "/" });
 
     if (result?.ok) {
       const sessionRes = await fetch("/api/auth/session");
       const session = await sessionRes.json();
 
       if (session?.user) {
-        await fetch("https://ezvent-server.onrender.com/users", {
+        await fetch("https://ezvent-server.onrender.com/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
