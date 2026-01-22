@@ -59,6 +59,9 @@ export default function AddEvent() {
       alert("Failed to save event!");
     }
   };
+  if (!session?.user) {
+    redirect("/login");
+  }
 
   return (
     <div className="min-h-screen bg-base-200 py-10 px-4">

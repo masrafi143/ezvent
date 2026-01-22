@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function ManageEventsPage() {
+  const { data: session } = useSession();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -59,6 +61,10 @@ export default function ManageEventsPage() {
       </div>
     );
   }
+  if(!session?.user){
+    redirect("/login");
+  }
+  
 
   return (
     <div className="max-w-6xl mx-auto p-6">

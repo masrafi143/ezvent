@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * HeroSections.jsx
@@ -9,62 +9,6 @@ import { useState } from "react";
  * Usage: import HeroSections from '@/components/HeroSections'; then use <HeroSections />
  */
 
-const sampleEvents = [
-  {
-    id: 1,
-    title: "Tech Conference 2025",
-    shortDesc: "Talks, workshops and networking on AI & Web.",
-    date: "2025-12-15",
-    price: 50,
-    image:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=1200&q=60&auto=format&fit=crop",
-  },
-  {
-    id: 2,
-    title: "Music Festival",
-    shortDesc: "Live performances, food stalls and open-air stage.",
-    date: "2025-11-30",
-    price: 20,
-    image:
-      "https://imgs.search.brave.com/hW1b0UvuIxTJSJmlTfQLridBYt3Vu9OIXCMZmaquaxc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9kaXNmb2N1cy1j/b252ZW50aW9uLWhh/bGwtYmFja2dyb3Vu/ZC1idXNpbmVzXzM4/ODEwLTUxMTMuanBn/P3NlbXQ9YWlzX2h5/YnJpZCZ3PTc0MCZx/PTgw",
-  },
-  {
-    id: 3,
-    title: "Startup Meetup",
-    shortDesc: "Pitch sessions, mentorship and investor talks.",
-    date: "2025-10-10",
-    price: 0,
-    image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&q=60&auto=format&fit=crop",
-  },
-  {
-    id: 4,
-    title: "Design Workshop",
-    shortDesc: "Hands-on product & UX design workshop.",
-    date: "2025-09-05",
-    price: 15,
-    image:
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&q=60&auto=format&fit=crop",
-  },
-  {
-    id: 5,
-    title: "Cultural Night",
-    shortDesc: "Local artists, plays & cultural performances.",
-    date: "2025-08-20",
-    price: 10,
-    image:
-      "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1200&q=60&auto=format&fit=crop",
-  },
-  {
-    id: 6,
-    title: "Cloud Summit",
-    shortDesc: "Cloud-native patterns, security & scale.",
-    date: "2025-07-18",
-    price: 75,
-    image:
-      "https://images.unsplash.com/photo-1556157382-97eda2d62296?w=1200&q=60&auto=format&fit=crop",
-  },
-];
 
 const features = [
   {
@@ -245,79 +189,84 @@ function Features() {
   );
 }
 
+
+
+
 function EventsGrid() {
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+
+useEffect(() => {
+  fetch("https://ezvent-server.onrender.com/events")
+    .then(res => res.json())
+    .then(data => {
+      // Sort by date (optional but recommended)
+      const sorted = data.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+
+      // Take only 6 events (you can change to 3 if needed)
+      setUpcomingEvents(sorted.slice(0, 4));
+    });
+}, []);
   return (
-    <section className="py-12 px-6 md:px-16 bg-base-100">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-2xl font-bold">Upcoming Events</h2>
-          <p className="text-gray-600">
-            Hand-picked events for you. Use the search to filter.
-          </p>
-        </div>
+<section className="py-16 bg-base-100">
+  <div className="max-w-6xl mx-auto px-6">
 
-        <div className="flex gap-2">
-          <input
-            type="search"
-            placeholder="Search events..."
-            className="input input-bordered input-sm"
-            aria-label="Search events"
-          />
-          <select className="select select-sm select-bordered">
-            <option>All</option>
-            <option>Free</option>
-            <option>Paid</option>
-          </select>
-        </div>
-      </div>
+    <div className="flex justify-between items-center mb-8">
+      <h2 className="text-3xl font-bold">Upcoming Events</h2>
+      <Link href="/events" className="text-primary font-semibold">
+        View All →
+      </Link>
+    </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sampleEvents.map((ev) => (
-          <article
-            key={ev.id}
-            className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition focus-within:ring-4 focus-within:ring-primary/20 outline-none"
-            tabIndex={0}
-            aria-labelledby={`event-${ev.id}`}
-          >
-            <div className="h-44 overflow-hidden">
-              <img
-                src={ev.image}
-                alt={ev.title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {upcomingEvents.map(event => (
+        <div
+          key={event._id}
+          className="card bg-base-100 shadow-lg hover:shadow-xl transition"
+        >
+          <figure>
+            <img
+              src={
+                event.banner ||
+                "https://imgs.search.brave.com/C9suDIMOEyTtzraPunE72iHUi3JWGV8qvTW4j-2U5kk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS12ZWN0b3Iv/Y2FuY2VsbGVkLWV2/ZW50cy1hbm5vdW5j/ZW1lbnRfMjMtMjE0/ODU1NDIzMC5qcGc_"
+              }
+              alt={event.title}
+              className="h-48 w-full object-cover"
+            />
+          </figure>
 
-            <div className="p-4">
-              <h3
-                id={`event-${ev.id}`}
-                className="font-semibold text-lg truncate"
+          <div className="card-body">
+            <h3 className="card-title">{event.title}</h3>
+
+            <p className="text-sm text-gray-600 line-clamp-2">
+              {event.description}
+            </p>
+
+            <p className="font-semibold text-primary">
+              {event.price ? `Price: ${event.price} ৳` : "Free Event"}
+            </p>
+
+            <p className="text-xs text-gray-500">
+              {event.date} — {event.time}
+            </p>
+
+            <div className="card-actions justify-end">
+              <Link
+                href={`/events/${event._id}`}
+                className="btn btn-sm bg-primary text-white"
               >
-                {ev.title}
-              </h3>
-              <p className="text-sm text-gray-500 mt-1 truncate">
-                {ev.shortDesc}
-              </p>
-
-              <div className="mt-4 flex items-center justify-between">
-                <div className="text-sm text-gray-600">{ev.date}</div>
-                <div className="text-sm font-semibold">
-                  {ev.price ? `$${ev.price}` : "Free"}
-                </div>
-              </div>
-
-              <div className="mt-3 flex gap-2">
-                {/* <Link href={`/events/${ev.id}`} className="btn btn-ghost btn-sm">
-                  Details
-                </Link> */}
-                <p className="btn bg-secondary text-white btn-sm">Details</p>
-                <button className="btn bg-primary text-white btn-sm">Buy Ticket</button>
-              </div>
+                Details
+              </Link>
             </div>
-          </article>
-        ))}
-      </div>
-    </section>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
   );
 }
 

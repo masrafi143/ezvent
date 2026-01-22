@@ -15,7 +15,9 @@ export default function MyEventsPage() {
     const fetchEvents = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`https://ezvent-server.onrender.com/events-date-sorted?email=${session.user.email}`);
+        const res = await fetch(
+          `https://ezvent-server.onrender.com/events-date-sorted?email=${session.user.email}`,
+        );
         if (!res.ok) {
           throw new Error("Failed to fetch events");
         }
@@ -32,9 +34,19 @@ export default function MyEventsPage() {
     fetchEvents();
   }, [session?.user?.email]);
 
-  if (loading) return <p className="text-center mt-10">Loading events…</p>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
-  if (events.length === 0) return <p className="text-center mt-10">No events found.</p>;
+  if (events.length === 0)
+    return <p className="text-center mt-10">No events found.</p>;
+  if (!session?.user) {
+    redirect("/login");
+  }
 
   return (
     <div className="max-w-3xl mx-auto p-4">
@@ -45,7 +57,8 @@ export default function MyEventsPage() {
             <h2 className="text-xl font-semibold">{event.title}</h2>
             <p className="text-gray-600">{event.description}</p>
             <p className="text-gray-500 mt-2">
-              Date: {new Date(event.date).toLocaleDateString()} | Time: {event.time || "N/A"}
+              Date: {new Date(event.date).toLocaleDateString()} | Time:{" "}
+              {event.time || "N/A"}
             </p>
           </div>
         ))}
